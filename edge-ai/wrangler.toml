@@ -1,0 +1,39 @@
+name = "image-moderation-ai"
+main = "cloudflare-worker.js"
+compatibility_date = "2025-05-01"
+
+workers_dev = true
+usage_model = "bundled"
+minify = true
+
+# AI capabilities
+[ai]
+binding = "AI"
+
+# Route pattern for application
+routes = [
+  { pattern = "*.example.com/upload", zone_name = "example.com" },
+  { pattern = "*.example.com/moderate-text", zone_name = "example.com" }
+]
+
+# Environment variables
+[vars]
+DEBUG = "false"
+NSFW_THRESHOLD = "0.85"
+
+# Production environment
+[env.production]
+routes = [
+  { pattern = "api.example.com/upload", zone_name = "example.com" },
+  { pattern = "api.example.com/moderate-text", zone_name = "example.com" }
+]
+[env.production.vars]
+DEBUG = "false"
+NSFW_THRESHOLD = "0.85"
+
+# Development environment
+[env.development]
+workers_dev = true
+[env.development.vars]
+DEBUG = "true"
+NSFW_THRESHOLD = "0.90" 

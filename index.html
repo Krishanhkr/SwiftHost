@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftHost - Premium Web Hosting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                SwiftHost
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#plans">Plans</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#domain">Domain</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Premium Web Hosting <br>Starting at $2.99/mo</h1>
+                <p>Lightning-fast hosting with 99.9% uptime guarantee</p>
+                <div class="cta-buttons">
+                    <a href="#plans" class="btn-primary cta-pulse">Get Started</a>
+                    <a href="#features" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-security.jpg" alt="Advanced Security Features">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <section id="plans" class="plans">
+        <div class="container">
+            <h2 class="gradient-text">Choose Your Plan</h2>
+            <div class="plan-cards">
+                <div class="plan-card pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$2.99<span>/mo</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> 1 Website</li>
+                        <li><i class="fas fa-check"></i> 10 GB SSD Storage</li>
+                        <li><i class="fas fa-check"></i> Free SSL</li>
+                        <li><i class="fas fa-check"></i> 24/7 Support</li>
+                    </ul>
+                    <a href="#" class="btn-plan">Choose Plan</a>
+                </div>
+                
+                <div class="plan-card pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Business</h3>
+                    <div class="price">$5.99<span>/mo</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Unlimited Websites</li>
+                        <li><i class="fas fa-check"></i> 50 GB SSD Storage</li>
+                        <li><i class="fas fa-check"></i> Free Domain</li>
+                        <li><i class="fas fa-check"></i> Daily Backups</li>
+                    </ul>
+                    <a href="#" class="btn-plan">Choose Plan</a>
+                </div>
+
+                <div class="plan-card pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$9.99<span>/mo</span></div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Unlimited Websites</li>
+                        <li><i class="fas fa-check"></i> 100 GB SSD Storage</li>
+                        <li><i class="fas fa-check"></i> Priority Support</li>
+                        <li><i class="fas fa-check"></i> Advanced Security</li>
+                    </ul>
+                    <a href="#" class="btn-plan">Choose Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Domain Search -->
+    <section id="domain" class="domain-search">
+        <div class="container">
+            <h2 class="gradient-text">Find Your Perfect Domain</h2>
+            <form class="search-box">
+                <input type="text" id="domainSearch" placeholder="Enter domain name...">
+                <select name="tld">
+                    <option>.com</option>
+                    <option>.net</option>
+                    <option>.org</option>
+                    <option>.io</option>
+                </select>
+                <button type="submit" class="btn-primary"><i class="fas fa-search"></i> Search</button>
+            </form>
+            <div class="domain-suggestions"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="gradient-text">Why Choose SwiftHost?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Advanced Security</h3>
+                    <p>Enterprise-grade protection with SSL and DDoS prevention</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Lightning Speed</h3>
+                    <p>SSD storage and LiteSpeed servers for maximum performance</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Expert support team available round the clock</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Daily Backups</h3>
+                    <p>Automatic daily backups with 30-day retention</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="gradient-text">Get in Touch</h2>
+            <form class="contact-form glass-card" id="contactForm">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Message..." rows="5" data-gramm="false" required></textarea>
+                <button type="submit" class="cta-pulse">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </form>
+            <div class="success-message">🎉 Message Sent!</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SwiftHost</h4>
+                    <p>&copy; 2024 SwiftHost. All rights reserved</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+</body>
+</html>

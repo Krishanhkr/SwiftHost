@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  # Honeypot Security Layer
+  honeypot:
+    build: ./honeypot
+    ports:
+      - "8081:5000"
+    volumes:
+      - ./honeypot/logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - security-net
+    environment:
+      - HONEYPOT_MODE=active
+      - LOG_LEVEL=INFO
+
+  # Blockchain Audit Trail service
+  audit-trail:
+    build: ./audit-trail
+    ports:
+      - "8082:3000"
+    volumes:
+      - ./audit-trail/data:/app/data
+    depends_on:
+      - hyperledger-peer
+    restart: unless-stopped
+    networks:
+      - security-net
+      - blockchain-net
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HYPERLEDGER_HOST=hyperledger-peer
+      - HYPERLEDGER_PORT=7051
+
+  # Hyperledger Fabric peer node for audit trails
+  hyperledger-peer:
+    image: hyperledger/fabric-peer:2.2
+    environment:
+      - CORE_PEER_ID=peer0.org1.example.com
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=bridge
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
+    volumes:
+      - ./blockchain/crypto-config:/etc/hyperledger/msp
+      - ./blockchain/data:/var/hyperledger/production
+    ports:
+      - "7051:7051"
+    restart: unless-stopped
+    networks:
+      - blockchain-net
+
+  # Quantum-safe Authentication service
+  quantum-auth:
+    build: ./quantum-auth
+    ports:
+      - "8083:3000"
+    volumes:
+      - ./quantum-auth/keys:/app/keys
+    restart: unless-stopped
+    networks:
+      - security-net
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=your-quantum-safe-secret-key
+
+  # Reverse proxy with Edge AI integration (simulated)
+  edge-proxy:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./edge-ai/nginx.conf:/etc/nginx/nginx.conf
+      - ./edge-ai/ssl:/etc/nginx/ssl
+    depends_on:
+      - honeypot
+      - audit-trail
+      - quantum-auth
+    restart: unless-stopped
+    networks:
+      - security-net
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+  # Security monitoring service
+  security-monitor:
+    build: ./security-monitor
+    ports:
+      - "8084:3000"
+    volumes:
+      - ./honeypot/logs:/app/honeypot-logs
+      - ./audit-trail/data:/app/audit-data
+    depends_on:
+      - honeypot
+      - audit-trail
+    restart: unless-stopped
+    networks:
+      - security-net
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ALERT_EMAIL=security@example.com
+
+networks:
+  security-net:
+    driver: bridge
+  blockchain-net:
+    driver: bridge 
