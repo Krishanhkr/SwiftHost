@@ -2,80 +2,19 @@ name: Deploy to Vercel
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-    
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-        
-      - name: Pull Vercel Environment Information
-        run: |
-          if ${{ github.event_name == 'pull_request' }}; then
-            vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          fi
-      
-      - name: Build Project Artifacts
-        run: |
-          if ${{ github.event_name == 'pull_request' }}; then
-            vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          fi
-      
-      - name: Deploy Project Artifacts to Vercel
-        id: deploy
-        run: |
-          if ${{ github.event_name == 'pull_request' }}; then
-            echo "VERCEL_DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_ENV
-          else
-            echo "VERCEL_DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_ENV
-          fi
-      
-      - name: Add comment to PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🚀 Deployed to: ${process.env.VERCEL_DEPLOYMENT_URL}`
-            })
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Run linting
-        run: npm run lint || true
-        
-      - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v9
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
-          urls: |
-            https://swifthost-web.vercel.app/
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-          
-      - name: Security scan
-        uses: ShiftLeftSecurity/scan-action@master
-        with:
-          type: "nodejs" 
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
